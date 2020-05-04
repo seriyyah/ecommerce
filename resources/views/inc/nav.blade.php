@@ -144,8 +144,12 @@
                                 <a href="#"><i class="icon-user icons"></i></a>
                             </div>
                             <div class="htc__shopping__cart">
-                                <a class="cart__menu" href="#"><i class="icon-handbag icons"></i></a>
-                                <a href="#"><span class="htc__qua">2</span></a>
+                                <a class="cart__menu" href="{{ route('cart.home') }}"><i class="icon-handbag icons"></i></a>
+                                <a href="{{ route('cart.home') }}">@if(Cart::instance('default')->count()>0)
+                                    <span class="htc__qua">
+                                    {{ Cart::instance('default')->count() }}</span>
+                                    @endif
+                                </a>
                             </div>
                         </div>
                     </div>

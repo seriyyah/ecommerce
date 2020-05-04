@@ -189,6 +189,19 @@
                                         <option>s</option>
                                     </select>
                                 </div>
+
+
+                                <form action="{{ route('cart.store') }}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="name" value="{{ $product->name }}">
+                                <input type="hidden" name="price" value="{{ $product->price }}">
+
+                                <button class="buttons-cart checkout--btn" type="submit" style="margin-top: 10px;">
+                                В корзину
+                                </button>
+                                </form>
+
                                 <div class="sin__desc align--left">
                                     <p><span>Categories:</span></p>
                                     <ul class="pro__cat__list">

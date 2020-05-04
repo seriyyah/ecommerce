@@ -11,12 +11,25 @@
         </div>
         <div class="fr__hover__info">
             <ul class="product__action">
-                <li><a href="wishlist.html"><i class="icon-heart icons"></i></a></li>
-
-                <li><a href="cart.html"><i class="icon-handbag icons"></i></a></li>
-
-                <li><a href="#"><i class="icon-shuffle icons"></i></a></li>
+                {{--  <li><form action="{{ route('wishadd') }}" method="POST">
+                    {{ csrf_field() }}
+                    <button class="buttons-add checkout--btn" type="submit" style="margin-top: 10px;">
+                        <i class="icon-heart icons"></i>
+                    </button>
+                    </form>
+                </li>  --}}
+                <li><form action="{{ route('cart.store') }}" method="POST">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id" value="{{ $product->id }}">
+                    <input type="hidden" name="name" value="{{ $product->name }}">
+                    <input type="hidden" name="price" value="{{ $product->price }}">
+                    <button class="buttons-add checkout--btn" type="submit" style="margin-top: 10px;">
+                        <i class="icon-handbag icons"></i>
+                    </button>
+                    </form>
+                </li>
             </ul>
+
         </div>
         <div class="fr__product__inner">
             <h4><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }} </a></h4>
