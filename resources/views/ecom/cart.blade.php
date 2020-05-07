@@ -161,11 +161,11 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="buttons-cart--inner">
                                 <div class="buttons-cart">
-                                    <a href="#">Continue Shopping</a>
+                                    <a href="{{ route('products') }}">Вернутся в Магазин</a>
                                 </div>
                                 <div class="buttons-cart checkout--btn">
                                     <a href="#">update</a>
-                                    <a href="#">checkout</a>
+                                    <a href="{{ route('checkout') }}">Оплатить</a>
                                 </div>
                             </div>
                         </div>
@@ -203,8 +203,8 @@
                                     <span>${{ Cart::total() }}</span>
                                 </div>
                                 <ul class="payment__btn">
-                                    <li class="active"><a href="#">payment</a></li>
-                                    <li><a href="#">continue shopping</a></li>
+                                    <li class="active"><a href="{{ route('checkout') }}">Оплатить</a></li>
+                                    <li><a href="{{ route('products') }}">Продолжить Покупки</a></li>
                                 </ul>
                             </div>
                         </div>
