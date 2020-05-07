@@ -12,7 +12,7 @@
 <script src="/js/main.js"></script>
 
 
-{{--  stripe js scripts  --}}
+{{--  stripe js scripts start --}}
 
 <script>
 // Create a Stripe client.
@@ -101,3 +101,30 @@ function stripeTokenHandler(token) {
   form.submit();
 }
 </script>
+{{--  stripe js scripts end --}}
+
+{{-- product quantity update in cart start --}}
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+    (function(){
+        const classname = document.querySelectorAll('.quantity')
+
+        Array.from(classname).forEach(function (element) {
+            element.addEventListener('change', function () {
+                const id = element.getAttribute('data-id')
+                axios.patch(`/cart/${id}`,{
+                    quantity:this.value
+                })
+                .then(function(response){
+                    // console.log(response);
+                    window.location.href ='{{ route('cart.home') }}'
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+             })
+         })
+    })();
+</script>
+
+{{-- product quantity update in cart end --}}

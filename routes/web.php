@@ -25,6 +25,8 @@ Route::get('/products/{product}', 'ProductsController@show')->name('product.show
 Route::get('/cart', 'CartController@index')->name('cart.home');
 Route::post('/cart', 'CartController@store')->name('cart.store');
 Route::delete('/cart/{product}', 'CartController@destroy')->name('cart.destroy');
+Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
+
 // Route::post('/cart/addtowish/{product}', 'CartController@addtowish')->name('cart.wishadd');
 
 // Route::get('/cart/addtowish', function(){

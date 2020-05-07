@@ -142,8 +142,8 @@
                                         </ul>
                                     </td><!-- to add model detail if you wish {//{ $item->model->details }}-->
                                     <td class="product-price"><span class="amount">{{ $item->model->presentPrice() }}</span></td>
-                                    <td class="product-quantity"><input type="number" value="1" /></td>
-                                    <td class="product-subtotal">£165.00</td>
+                                    <td class="product-quantity"><input type="number"class="quantity" data-id="{{ $item->rowId }}" value="{{$item->qty }}" /></td>
+                                    <td class="product-subtotal">{{ $item->subtotal() }}</td>
                                     <td class="product-remove">
                                         <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
                                             {{ csrf_field() }}
