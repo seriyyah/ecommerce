@@ -12,73 +12,92 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-         Product::create([
-            'name' => 'product1',
-            'slug' => 'product1slug',
-            'details' => 'this is  Product one dummy',
+        for($i = 1; $i <30; $i++ ){
+             Product::create([
+            'name' => 'car' .$i,
+            'slug' => 'car-' .$i,
+            'details' => 'this is product detail demo for testing',
             'price' => '50.50',
             'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
              Similique facere cupiditate porro illo asperiores non cum ab harum.
               Et enim laborum nihil nobis beatae nemo ad!,',
 
-        ]);
+        ])->categories()->attach(1);
+    }
 
-         Product::create([
-            'name' => 'product2',
-            'slug' => 'product2slug',
-            'details' => 'this is  Product two dummy',
+    /* to attach another category to excisting or
+    to make it multiple use next peace of code
+
+    //
+    $product = Product::find(1);    taking cat 1 wich is definded as a car
+    $product->categories()->attach(2);   attaching  cat 2 wich is monkey  now products from cat 1 will also display in cat 2
+    //
+     */
+
+    for($i = 1; $i <10; $i++ ){
+        Product::create([
+        'name' => 'monkey' .$i,
+        'slug' => 'monkey-' .$i,
+        'details' => 'this is product detail demo for testing',
+        'price' => '50.50',
+        'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
+            Similique facere cupiditate porro illo asperiores non cum ab harum.
+            Et enim laborum nihil nobis beatae nemo ad!,',
+
+    ])->categories()->attach(2);
+}
+
+    for($i = 1; $i <12; $i++ ){
+             Product::create([
+            'name' => 'just another cat' .$i,
+            'slug' => 'just another cat-' .$i,
+            'details' => 'this is product detail demo for testing',
             'price' => '50.50',
             'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
              Similique facere cupiditate porro illo asperiores non cum ab harum.
               Et enim laborum nihil nobis beatae nemo ad!,',
 
-        ]);
+        ])->categories()->attach(3);
+    }
+
 
          Product::create([
-            'name' => 'product3',
-            'slug' => 'product3slug',
-            'details' => 'this is  Product three dummy',
+            'name' => 'phone',
+            'slug' => 'phone-',
+            'details' => 'this is product detail demo for testing',
             'price' => '50.50',
             'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
              Similique facere cupiditate porro illo asperiores non cum ab harum.
               Et enim laborum nihil nobis beatae nemo ad!,',
 
-        ]);
+        ])->categories()->attach(4);
 
 
          Product::create([
-            'name' => 'product4',
-            'slug' => 'product4slug',
-            'details' => 'this is  Product four dummy',
+            'name' => 'boat',
+            'slug' => 'boat-',
+            'details' => 'this is product detail demo for testing',
             'price' => '50.50',
             'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
              Similique facere cupiditate porro illo asperiores non cum ab harum.
               Et enim laborum nihil nobis beatae nemo ad!,',
 
-        ]);
+        ])->categories()->attach(5);
+
+
+        $product = Product::find(5);
+        $product->categories()->attach(6);
 
 
          Product::create([
-            'name' => 'product5',
-            'slug' => 'product5slug',
-            'details' => 'this is  Product five dummy',
+            'name' => 'bicycle',
+            'slug' => 'bicycle',
+            'details' => 'this is product detail demo for testing ',
             'price' => '50.50',
             'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
              Similique facere cupiditate porro illo asperiores non cum ab harum.
               Et enim laborum nihil nobis beatae nemo ad!,',
 
-        ]);
-
-
-         Product::create([
-            'name' => 'product6',
-            'slug' => 'product6slug',
-            'details' => 'this is  Product six dummy',
-            'price' => '50.50',
-            'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
-             Similique facere cupiditate porro illo asperiores non cum ab harum.
-              Et enim laborum nihil nobis beatae nemo ad!,',
-
-        ]);
+        ])->categories()->attach(6);
     }
 }

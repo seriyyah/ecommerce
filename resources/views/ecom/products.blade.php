@@ -88,7 +88,7 @@
                             <nav class="bradcaump-inner">
                               <a class="breadcrumb-item" href="{{ route('home') }}">Home</a>
                               <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
-                              <span class="breadcrumb-item active">Products</span>
+                              <span class="breadcrumb-item active">{{ $categoryName }}</span>
                             </nav>
                         </div>
                     </div>
@@ -105,17 +105,17 @@
                     <div class="htc__product__rightidebar">
                         <div class="htc__grid__top">
                             <div class="htc__select__option">
-                                <select class="ht__select">
-                                    <option>Default softing</option>
-                                    <option>Sort by popularity</option>
-                                    <option>Sort by average rating</option>
-                                    <option>Sort by newness</option>
+                                <select class="ht__select" onchange="location = this.value;">
+                                   <option>Самые Новые</option>
+                                   <option value="{{ route('products', ['category'=> request()->category, 'sort' => 'high_low']) }}">Самые Дорогие</option>
+                                    <option value="{{ route('products', ['category'=> request()->category, 'sort' => 'low_high']) }}">Самые Дешовые</option>
+
                                 </select>
+
                                 <select class="ht__select">
-                                    <option>Show by</option>
-                                    <option>Sort by popularity</option>
-                                    <option>Sort by average rating</option>
-                                    <option>Sort by newness</option>
+                                    <option>Показать:</option>
+                                    <option>Самые Папулярные</option>
+                                    <option>Стандартный</option>
                                 </select>
                             </div>
                             <div class="ht__pro__qun">
@@ -167,16 +167,17 @@
                                 <div role="tabpanel" id="list-view" class="single-grid-view tab-pane fade clearfix">
                                     <div class="col-xs-12">
                                         <div class="ht__list__wrap">
-                                            <!-- Start List Product -->
+                                            @forelse ($products as $product)
+
                                             <div class="ht__list__product">
                                                 <div class="ht__list__thumb">
-                                                    <a href="product-details.html"><img src="/images/product-2/pro-1/1.jpg" alt="product images"></a>
+                                                    <a href="{{ route('product.show', $product->slug) }}"><img src="/images/product-2/pro-1/1.jpg" alt="product images"></a>
                                                 </div>
                                                 <div class="htc__list__details">
-                                                    <h2><a href="product-details.html">Product Title Here </a></h2>
+                                                    <h2><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h2>
                                                     <ul  class="pro__prize">
-                                                        <li class="old__prize">$82.5</li>
-                                                        <li>$75.2</li>
+                                                        {{-- <li class="old__prize">$82.5</li> --}}
+                                                        <li>{{ $product->presentPrice() }}</li>
                                                     </ul>
                                                     <ul class="rating">
                                                         <li><i class="icon-star icons"></i></li>
@@ -185,88 +186,26 @@
                                                         <li class="old"><i class="icon-star icons"></i></li>
                                                         <li class="old"><i class="icon-star icons"></i></li>
                                                     </ul>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisLorem ipsum dolor sit amet, consec adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqul Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                    <p>{{ $product->description }}.</p>
                                                     <div class="fr__list__btn">
-                                                        <a class="fr__btn" href="cart.html">Add To Cart</a>
+                                                        <form action="{{ route('cart.store') }}" method="POST">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="id" value="{{ $product->id }}">
+                                                            <input type="hidden" name="name" value="{{ $product->name }}">
+                                                            <input type="hidden" name="price" value="{{ $product->price }}">
+
+                                                            <button class="buttons-cart checkout--btn" type="submit" style="margin-top: 10px;">
+                                                            В корзину
+                                                            </button>
+                                                            {{-- <a class="fr__btn" type="submit" href="#">Add To Cart</a> --}}
+                                                            </form>
+
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- End List Product -->
-                                            <!-- Start List Product -->
-                                            <div class="ht__list__product">
-                                                <div class="ht__list__thumb">
-                                                    <a href="product-details.html"><img src="/images/product-2/pro-1/2.jpg" alt="product images"></a>
-                                                </div>
-                                                <div class="htc__list__details">
-                                                    <h2><a href="product-details.html">Product Title Here </a></h2>
-                                                    <ul  class="pro__prize">
-                                                        <li class="old__prize">$82.5</li>
-                                                        <li>$75.2</li>
-                                                    </ul>
-                                                    <ul class="rating">
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li class="old"><i class="icon-star icons"></i></li>
-                                                        <li class="old"><i class="icon-star icons"></i></li>
-                                                    </ul>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisLorem ipsum dolor sit amet, consec adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqul Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                    <div class="fr__list__btn">
-                                                        <a class="fr__btn" href="cart.html">Add To Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End List Product -->
-                                            <!-- Start List Product -->
-                                            <div class="ht__list__product">
-                                                <div class="ht__list__thumb">
-                                                    <a href="product-details.html"><img src="/images/product-2/pro-1/3.jpg" alt="product images"></a>
-                                                </div>
-                                                <div class="htc__list__details">
-                                                    <h2><a href="product-details.html">Product Title Here </a></h2>
-                                                    <ul  class="pro__prize">
-                                                        <li class="old__prize">$82.5</li>
-                                                        <li>$75.2</li>
-                                                    </ul>
-                                                    <ul class="rating">
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li class="old"><i class="icon-star icons"></i></li>
-                                                        <li class="old"><i class="icon-star icons"></i></li>
-                                                    </ul>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisLorem ipsum dolor sit amet, consec adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqul Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                    <div class="fr__list__btn">
-                                                        <a class="fr__btn" href="cart.html">Add To Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End List Product -->
-                                            <!-- Start List Product -->
-                                            <div class="ht__list__product">
-                                                <div class="ht__list__thumb">
-                                                    <a href="product-details.html"><img src="/images/product-2/pro-1/4.jpg" alt="product images"></a>
-                                                </div>
-                                                <div class="htc__list__details">
-                                                    <h2><a href="product-details.html">Product Title Here </a></h2>
-                                                    <ul  class="pro__prize">
-                                                        <li class="old__prize">$82.5</li>
-                                                        <li>$75.2</li>
-                                                    </ul>
-                                                    <ul class="rating">
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li><i class="icon-star icons"></i></li>
-                                                        <li class="old"><i class="icon-star icons"></i></li>
-                                                        <li class="old"><i class="icon-star icons"></i></li>
-                                                    </ul>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisLorem ipsum dolor sit amet, consec adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqul Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                    <div class="fr__list__btn">
-                                                        <a class="fr__btn" href="cart.html">Add To Cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End List Product -->
+                                            @empty
+                                                <div style="text-align: center">Нет Товаров В данной Категории</div>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </div>
@@ -278,11 +217,12 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <ul class="htc__pagenation">
-                               <li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
-                               <li><a href="#">1</a></li>
-                               <li class="active"><a href="#">3</a></li>
+                                <li>{{ $products->appends(request()->input())->links() }}</li>
+                               {{-- <li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li> --}}
+
+                               {{-- <li class="active"><a href="#">3</a></li>
                                <li><a href="#">19</a></li>
-                               <li><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
+                               <li><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -314,18 +254,11 @@
                         <!-- End Prize Range -->
                         <!-- Start Category Area -->
                         <div class="htc__category">
-                            <h4 class="title__line--4">categories</h4>
+                            <h4 class="title__line--4">Категории</h4>
                             <ul class="ht__cat__list">
-                                <li><a href="#">Clothing</a></li>
-                                <li><a href="#">Bags</a></li>
-                                <li><a href="#">Shoes</a></li>
-                                <li><a href="#">Jewelry</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Food / Drink Store</a></li>
-                                <li><a href="#">Gift Store</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Watch</a></li>
-                                <li><a href="#">Other</a></li>
+                                @foreach($categories as $category)
+                                    <li><a href="{{ route('products', ['category' => $category->slug]) }}">{{ $category->name }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <!-- End Category Area -->

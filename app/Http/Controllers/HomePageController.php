@@ -15,6 +15,7 @@ class HomePageController extends Controller
     public function index()
     {
         $products = Product::inRandomOrder()->take(8)->get();
+        // $fproducts = Product::where('featured', true)->get();
 
         return view('ecom.index')->with('products', $products);
     }
