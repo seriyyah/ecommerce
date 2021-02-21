@@ -1,7 +1,8 @@
 <?php
-function presentPrice($price)
-{
-    return "$ ".number_format($this->price / 100);
+
+function presentPrice($price) {
+    return money_format('$%i', $price / 100);
 }
+
 
 ?>

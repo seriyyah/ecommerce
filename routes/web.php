@@ -36,8 +36,8 @@ Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
 Route::get('empty', function(){
     Cart::destroy();
 });
-
-
+Route::post('/coupon', 'CouponsController@store')->name('coupon.store');
+Route::delete('/coupon', 'CouponsController@destroy')->name('coupon.destroy');
 
 Route::get('/checkout', 'CheckoutController@index')->name('checkout');
 Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
@@ -50,3 +50,8 @@ Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.inde
 // Route::get('/products/detail', function () {
 //     return view('ecom.show');
 // });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

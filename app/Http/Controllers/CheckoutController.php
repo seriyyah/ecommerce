@@ -8,6 +8,8 @@ use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Cartalyst\Stripe\Exception\CardErrorException;
 
+use App\helpers;
+
 class CheckoutController extends Controller
 {
     /**
@@ -17,7 +19,19 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        return view('ecom.checkout');
+
+        // $tax            = config('cart.tax') / 100 ;
+        // $discount       = session()->get('coupon')['discount'] ?? 0;
+        // $newSubtotal    = (Cart::subtotal() - $discount);
+        // $newTax         = $newSubtotal * $tax;
+        // $newTotal       = $newSubtotal * (1 + $tax);
+
+        return view('ecom.checkout')->with([
+            'discount'      => $this->getNumbers()->get('discount'),
+            'newSubtotal'   => $this->getNumbers()->get('newSubtotal'),
+            'newTax'        => $this->getNumbers()->get('newTax'),
+            'newTotal'      => $this->getNumbers()->get('newTotal'),
+        ]);
     }
 
     /**
@@ -45,7 +59,7 @@ class CheckoutController extends Controller
 
         try{
             $charge = Stripe::charges()->create([
-                'amount'        => Cart::total(),
+                'amount'        => $this->getNumbers()->get('newTotal'),
                 'currency'      => 'USD', // change here for diff curency
                 'source'        => $request->stripeToken,
                 'description'   => 'Order',
@@ -53,14 +67,36 @@ class CheckoutController extends Controller
                 'metadata'      =>[
                     'contents'  => $contents,
                     'quntity'   => Cart::instance('default')->count(),
+                    'discount'  => collect(session()->get('coupon'))->toJson(),
                 ],
             ]);
             Cart::instance('default')->destroy();
+            session()->forget('coupon');
             return redirect()->route('confirmation.index')->with('success_message', 'Благадарим за пакупку ваша оплата прошла успешно');
         }catch (CardErrorException $e){
             return back()->withErrors('Error!' .$e->getMessage());
         }
+
+
     }
+
+
+    private function getNumbers()
+        {
+            $tax            = config('cart.tax') / 100 ;
+            $discount       = session()->get('coupon')['discount'] ?? 0;
+            $newSubtotal    = (Cart::subtotal() - $discount);
+            $newTax         = $newSubtotal * $tax;
+            $newTotal       = $newSubtotal * (1 + $tax);
+
+            return collect([
+                'tax'           => $tax,
+                'discount'      => $discount,
+                'newSubtotal'   => $newSubtotal,
+                'newTax'        => $newTax,
+                'newTotal'      => $newTotal,
+            ]);
+        }
 
     /**
      * Display the specified resource.

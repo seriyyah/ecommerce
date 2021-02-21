@@ -171,18 +171,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <div class="ht__coupon__code">
-                                <span>enter your discount code</span>
-                                <div class="coupon__box">
-                                    <input type="text" placeholder="">
-                                    <div class="ht__cp__btn">
-                                        <a href="#">enter</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{--  to set up tax go config and cart now is 18% for ukraine   --}}
+
+                        {{--  to set up tax go config and cart now is 18% for ukraine   located in cart.php turn on or off ass you wish--}}
                         <div class="col-md-6 col-sm-12 col-xs-12 smt-40 xmt-40">
                             <div class="htc__cart__total">
                                 <h6>cart total</h6>

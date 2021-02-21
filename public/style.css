@@ -2679,6 +2679,25 @@ a.shipping-calculator-button:hover {
     background: #c43b68 none repeat scroll 0 0;
 }
 
+.ht__cp__btn button {
+    background: #212121 none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 56px;
+    line-height: 56px;
+    padding: 0 27px;
+    text-transform: uppercase;
+    transition: all 0.4s ease 0s;
+    border: none;
+}
+
+.ht__cp__btn button:hover {
+    background: #c43b68 none repeat scroll 0 0;
+}
+
 .htc__cart__total h6 {
     background: #c43b68 none repeat scroll 0 0;
     font-size: 14px;
