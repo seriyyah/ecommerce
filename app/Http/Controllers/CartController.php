@@ -111,18 +111,28 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function addtowish($id)
-    // {
-    //    $item = Cart::get($id);
+    public function addtowish($id)
+    {
+       $item = Cart::get($id);
 
 
-    //    Cart::remove($id);
+       Cart::remove($id);
 
-    //    Cart::instance('addtowish')->add($item->id, $item->name, 1, $item->price)
-    //         ->associate('App\Product');
+       $duplicates = Cart::instance('addtowish')->search(function ($cartItem, $rowId) use ($id)
+       {
+           return $rowId === $id;
+       });
 
-    //     return redirect()->route('wishadd')->with('success_message', 'Сохраненно на потом!');
+       if($duplicates->isNotEmpty())
+       {
+           return redirect()->route('cart.home')->with('success_message', 'Позиция уже была сохранена рание!');
+       }
+
+       Cart::instance('addtowish')->add($item->id, $item->name, 1, $item->price)
+            ->associate('App\Product');
+
+        return redirect()->route('cart.home')->with('success_message', 'Сохраненно на потом!');
 
 
-    // }
+    }
 }

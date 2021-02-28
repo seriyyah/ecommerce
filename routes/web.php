@@ -27,7 +27,11 @@ Route::post('/cart', 'CartController@store')->name('cart.store');
 Route::delete('/cart/{product}', 'CartController@destroy')->name('cart.destroy');
 Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
 
-// Route::post('/cart/addtowish/{product}', 'CartController@addtowish')->name('cart.wishadd');
+Route::post('/cart/addtowish/{product}', 'CartController@addtowish')->name('cart.addtowish');
+
+Route::delete('/saveForLater/{product}', 'SaveForLaterController@destroy')->name('remove.addtowish');
+
+Route::post('/saveForLater/switchToCart/{product}', 'SaveForLaterController@switchToCart')->name('add.switchToCart');
 
 // Route::get('/cart/addtowish', function(){
 //     return view('ecom.wish')->name('wishadd');

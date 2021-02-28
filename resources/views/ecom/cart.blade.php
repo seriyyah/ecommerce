@@ -137,8 +137,8 @@
                                     <td class="product-thumbnail"><a href="{{ route('product.show', $item->model->slug) }}"><img src="images/product-2/cart-img/1.jpg" alt="product img" /></a></td><!-- for img in future {//{ assets('img/folder/'.$item->model->slug.'.jpg') }}-->
                                     <td class="product-name"><a href="{{ route('product.show', $item->model->slug) }}">{{ $item->model->name }}</a>
                                         <ul  class="pro__prize">
-                                            {{-- <li class="old__prize">$82.5</li> --}}
-                                            {{--  <li>{{ $item->model->presentPrice() }}</li>  --}}
+                                            <!-- <li class="old__prize">$82.5</li> -->
+                                            <!--  <li>{{ $item->model->presentPrice() }}</li>  -->
                                         </ul>
                                     </td><!-- to add model detail if you wish {//{ $item->model->details }}-->
                                     <td class="product-price"><span class="amount">{{ $item->model->presentPrice() }}</span></td>
@@ -160,8 +160,16 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="buttons-cart--inner">
-                                <div class="buttons-cart">
+                                <div class="buttons-cart" style="display: flex">
                                     <a href="{{ route('products') }}">Вернутся в Магазин</a>
+
+                                    <form action="{{ route('cart.addtowish', $item->rowId) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <button type="submit" >
+                                           <a> Сохранить на потом</a>
+                                        </button>
+                                        </form>
+
                                 </div>
                                 <div class="buttons-cart checkout--btn">
                                     <a href="#">update</a>
@@ -172,7 +180,7 @@
                     </div>
                     <div class="row">
 
-                        {{--  to set up tax go config and cart now is 18% for ukraine   located in cart.php turn on or off ass you wish--}}
+                        <!--  to set up tax go config and cart now is 18% for ukraine   located in cart.php turn on or off ass you wish-->
                         <div class="col-md-6 col-sm-12 col-xs-12 smt-40 xmt-40">
                             <div class="htc__cart__total">
                                 <h6>cart total</h6>
@@ -208,6 +216,63 @@
                         </ul>
                     </div>
                         @endif
+
+                        <!-- for saved for later -->
+                        @if (Cart::instance('addtowish')->count() > 0)
+                        <div class="col-md-12 col-sm-12 col-xs-12 mt-5">
+
+                                <div class="table-content table-responsive">
+
+<h2>Позиций в избраных ({{Cart::instance('addtowish')->count()}})</h2>
+
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">products</th>
+                                    <th class="product-name">name of products</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-remove">Remove</th>
+                                </tr>
+                            </thead>
+                            @foreach (Cart::instance('addtowish')->content() as $item)
+
+
+                            <tbody>
+                                <tr>
+                                    <td class="product-thumbnail"><a href="{{ route('product.show', $item->model->slug) }}"><img src="images/product-2/cart-img/1.jpg" alt="product img" /></a></td><!-- for img in future {//{ assets('img/folder/'.$item->model->slug.'.jpg') }}-->
+                                    <td class="product-name"><a href="{{ route('product.show', $item->model->slug) }}">{{ $item->model->name }}</a>
+                                        <ul  class="pro__prize">
+                                            <!-- <li class="old__prize">$82.5</li> -->
+                                            <!--  <li>{{ $item->model->presentPrice() }}</li>  -->
+                                        </ul>
+                                    </td><!-- to add model detail if you wish {//{ $item->model->details }}-->
+                                    <td class="product-price"><span class="amount">{{ $item->model->presentPrice() }}</span></td>
+                                    <td class="product-quantity"><input type="number"class="quantity" data-id="{{ $item->rowId }}" value="{{$item->qty }}" /></td>
+                                    <td class="product-subtotal">{{ $item->subtotal() }}</td>
+                                    <td class="product-remove">
+                                        <form action="{{ route('remove.addtowish', $item->rowId) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button type="submit"class="cart-options"><i class="icon-trash icons "></i></button>
+                                        </form>
+                                        <form action="{{ route('add.switchToCart', $item->rowId) }}" method="POST">
+                                            {{ csrf_field() }}
+
+                                            <button type="submit"class="cart-options">В корзину</button>
+                                        </form>
+                            </td>
+                                </tr>
+                            </tbody>
+                            @endforeach
+                                                    </table>
+                                </div>
+                        </div>
+
+                        @endif
+                        <!-- end saved for later -->
             </div>
         </div>
     </div>
