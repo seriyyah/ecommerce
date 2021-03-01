@@ -139,7 +139,7 @@
                                         <div class="category">
                                             <div class="ht__cat__thumb">
                                                 <a href="{{ route('product.show', $product->slug) }}">
-                                                    <img src="/images/product/1.jpg" alt="product images">
+                                                    <img src="{{ asset('storage/'.$product->image)}}" onerror="this.src='/images/product/1.jpg'" alt="full-image">
                                                 </a>
                                             </div>
                                             <div class="fr__hover__info">
@@ -180,7 +180,7 @@
 
                                             <div class="ht__list__product">
                                                 <div class="ht__list__thumb">
-                                                    <a href="{{ route('product.show', $product->slug) }}"><img src="/images/product-2/pro-1/1.jpg" alt="product images"></a>
+                                                    <a href="{{ route('product.show', $product->slug) }}"><img src="{{ asset('storage/'.$product->image)}}" onerror="this.src='/images/product/1.jpg'" alt="full-image"></a>
                                                 </div>
                                                 <div class="htc__list__details">
                                                     <h2><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h2>
@@ -195,7 +195,7 @@
                                                         <li class="old"><i class="icon-star icons"></i></li>
                                                         <li class="old"><i class="icon-star icons"></i></li>
                                                     </ul>
-                                                    <p>{{ $product->description }}.</p>
+                                                    <p>{!! $product->description !!}.</p>
                                                     <div class="fr__list__btn">
                                                         <form action="{{ route('cart.store') }}" method="POST">
                                                             {{ csrf_field() }}

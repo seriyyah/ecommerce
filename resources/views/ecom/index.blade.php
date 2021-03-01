@@ -153,7 +153,7 @@
                             <div class="category">
                                 <div class="ht__cat__thumb">
                                     <a href="{{ route('product.show', $product->slug) }}">
-                                        <img src="images/product/1.jpg" alt="product images">
+                                        <img src="{{ asset('storage/'.$product->image)}}" onerror="this.src='/images/product/1.jpg'" alt="full-image">
                                     </a>
                                 </div>
                                 <div class="fr__hover__info">

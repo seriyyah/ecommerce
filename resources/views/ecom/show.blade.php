@@ -114,37 +114,28 @@
                             <div class="product__big__images">
                                 <div class="portfolio-full-image tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="img-tab-1">
-                                        <img src="{{ asset('storage/'.$product->image)}}" alt="full-image">
+                                        <img src="{{ productimg($product->image)}}" class="prod active" id="currentImage">
                                     </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="img-tab-2">
-                                        {{--  {{ asset('img/products/'.$product->slug.'.jpg') }} works by slug so you will name each photo as a product slug  --}}
-                                        <img src="/images/product-2/big-img/2.jpg" alt="full-image">
+                                <!-- Start Small images -->
+
+                                <div class="product-section-images">
+                                    <div class="product-section-thumbnail selected">
+                                        <img src="{{ productimg($product->image)}}">
                                     </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="img-tab-3">
-                                        <img src="/images/product-2/big-img/3.jpg" alt="full-image">
-                                    </div>
+                                        @if ($product->images)
+                                        @foreach (json_decode($product->images, true) as $image)
+                                             <div class="product-section-thumbnail">
+                                                <img src="{{ productimg($image)}}">
+                                            </div>
+                                        @endforeach
+
+                                        @endif
+                                </div>
+                            <!-- End Small images -->
                                 </div>
                             </div>
                             <!-- End Product Big Images -->
-                            <!-- Start Small images -->
-                            <ul class="product__small__images" role="tablist">
-                                <li role="presentation" class="pot-small-img active">
-                                    <a href="#img-tab-1" role="tab" data-toggle="tab">
-                                        <img src="/images/product-2/sm-img-3/3.jpg" alt="small-image">
-                                    </a>
-                                </li>
-                                <li role="presentation" class="pot-small-img">
-                                    <a href="#img-tab-2" role="tab" data-toggle="tab">
-                                        <img src="/images/product-2/sm-img-3/1.jpg" alt="small-image">
-                                    </a>
-                                </li>
-                                <li role="presentation" class="pot-small-img">
-                                    <a href="#img-tab-3" role="tab" data-toggle="tab">
-                                        <img src="/images/product-2/sm-img-3/2.jpg" alt="small-image">
-                                    </a>
-                                </li>
-                            </ul>
-                            <!-- End Small images -->
+
                         </div>
                     </div>
                     <div class="col-md-7 col-lg-7 col-sm-12 col-xs-12 smt-40 xmt-40">
@@ -350,5 +341,31 @@
     <!-- End Banner Area -->
 
 </div>
+
+@endsection
+
+@section('extra-js')
+<script>
+    (function(){
+        const currentImage = document.querySelector('#currentImage');
+        const images = document.querySelector('.product-section-thumbnail');
+
+        images.forEach((element) => element.addEventListener('click', thumbnailClick));
+
+        function thumbnailClick(e)
+        {
+            currentImage.classList.remove('active');
+
+            currentImage.addEventListener('transitioned', () => {
+                currentImage.src = this.querySelector('img').src;
+                currentImage.classList.add('active');
+            })
+
+            images.forEach((element) => element.classList.remove('selected'));
+            this.classList.add('selected');
+
+        }
+    })();
+</script>
 
 @endsection

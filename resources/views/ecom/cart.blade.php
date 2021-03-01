@@ -134,7 +134,7 @@
                             @foreach(Cart::content() as $item)
                             <tbody>
                                 <tr>
-                                    <td class="product-thumbnail"><a href="{{ route('product.show', $item->model->slug) }}"><img src="images/product-2/cart-img/1.jpg" alt="product img" /></a></td><!-- for img in future {//{ assets('img/folder/'.$item->model->slug.'.jpg') }}-->
+                                    <td class="product-thumbnail"><a href="{{ route('product.show', $item->model->slug) }}"><img src="{{ asset('storage/'.$item->model->image)}}" onerror="this.src='/images/product/1.jpg'" alt="full-image"></a></td><!-- for img in future {//{ assets('img/folder/'.$item->model->slug.'.jpg') }}-->
                                     <td class="product-name"><a href="{{ route('product.show', $item->model->slug) }}">{{ $item->model->name }}</a>
                                         <ul  class="pro__prize">
                                             <!-- <li class="old__prize">$82.5</li> -->
@@ -242,7 +242,7 @@
 
                             <tbody>
                                 <tr>
-                                    <td class="product-thumbnail"><a href="{{ route('product.show', $item->model->slug) }}"><img src="images/product-2/cart-img/1.jpg" alt="product img" /></a></td><!-- for img in future {//{ assets('img/folder/'.$item->model->slug.'.jpg') }}-->
+                                    <td class="product-thumbnail"><a href="{{ route('product.show', $item->model->slug) }}"><img src="{{ asset('storage/'.$item->model->image)}}" onerror="this.src='/images/product/1.jpg'" alt="full-image"></a></td><!-- for img in future {//{ assets('img/folder/'.$item->model->slug.'.jpg') }}-->
                                     <td class="product-name"><a href="{{ route('product.show', $item->model->slug) }}">{{ $item->model->name }}</a>
                                         <ul  class="pro__prize">
                                             <!-- <li class="old__prize">$82.5</li> -->

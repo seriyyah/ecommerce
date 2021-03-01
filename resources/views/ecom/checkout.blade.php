@@ -174,7 +174,7 @@
                     <div class="order-details__item">
                         <div class="single-item">
                             <div class="single-item__thumb">
-                                <img src="images/cart/1.png" alt="ordered item">
+                                <img src="{{ asset('storage/'.$item->model->image)}}" onerror="this.src='/images/product/1.jpg'" alt="full-image">
                             </div>
                             <div class="single-item__content">
                                 <a href="#">{{ $item->model->name }}</a>
