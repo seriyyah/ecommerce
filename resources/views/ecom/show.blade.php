@@ -114,7 +114,7 @@
                             <div class="product__big__images">
                                 <div class="portfolio-full-image tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="img-tab-1">
-                                        <img src="/images/product-2/big-img/1.jpg" alt="full-image">
+                                        <img src="{{ asset('storage/'.$product->image)}}" alt="full-image">
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="img-tab-2">
                                         {{--  {{ asset('img/products/'.$product->slug.'.jpg') }} works by slug so you will name each photo as a product slug  --}}
@@ -273,7 +273,7 @@
                         <div role="tabpanel" id="description" class="pro__single__content tab-pane fade in active">
                             <div class="pro__tab__content__inner">
                                 <h4 class="ht__pro__title">Description</h4>
-                                <p>{{ $product->description }}</p>
+                                <p>{!! $product->description !!}</p>
                                 <h4 class="ht__pro__title">Standard Featured</h4>
                                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in</p>
                             </div>
