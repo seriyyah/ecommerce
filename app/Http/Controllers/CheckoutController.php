@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Cartalyst\Stripe\Exception\CardErrorException;
-
-use App\helpers;
+use Stripe\Product;
+use Stripe\Stripe;
+use Stripe\StripeClient;
 
 class CheckoutController extends Controller
 {
@@ -34,14 +33,49 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function stripeCheckout(Request $request)
     {
-        //
+        $contents = Cart::content()->map(function($item)
+        {
+            return [
+            'price_data' => [
+            'currency' => 'USD',
+            'unit_amount' => $item->price * 100,
+            'product_data' => [
+                'name' => $item->name
+                    ],
+                ],
+                    'quantity' => $item->qty,
+            ];
+        })->values()->toArray();
+
+        $priceUnitAmount = $this->getNumbers()->get('newTotal');
+
+        $stripe = new StripeClient(
+            config('services.stripe.secret')
+        );
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+      $stripe =  $stripe->checkout->sessions->create([
+            'success_url' => url(route('confirmation.index')),
+            'cancel_url' => url(route('stripe.error')),
+            'line_items' => [
+                $contents
+
+            ],
+            'mode' => 'payment',
+            'payment_method_types' => [
+                'card'
+            ]
+        ]);
+
+      return redirect($stripe->url);
+    }
+
+    public function stripeError()
+    {
+        return view('ecom.paymentUnsuccesfull');
     }
 
     /**
@@ -55,8 +89,8 @@ class CheckoutController extends Controller
         $contents = Cart::content()->map(function($item)
         {
             return $item->model->slug.','.$item->qty;
-        })->values()->toJson();
-
+        });
+//            ->values()->toJson();
         try{
             $charge = Stripe::charges()->create([
                 'amount'        => $this->getNumbers()->get('newTotal'),
