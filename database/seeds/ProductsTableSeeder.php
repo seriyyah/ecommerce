@@ -13,7 +13,7 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         for($i = 1; $i <30; $i++ ){
-             Product::create([
+            Product::create([
             'name' => 'car' .$i,
             'slug' => 'car-' .$i,
             'details' => 'this is product detail demo for testing',
@@ -35,14 +35,14 @@ class ProductsTableSeeder extends Seeder
      */
 
     for($i = 1; $i <10; $i++ ){
-        Product::create([
-        'name' => 'monkey' .$i,
-        'slug' => 'monkey-' .$i,
-        'details' => 'this is product detail demo for testing',
-        'price' => '50.50',
-        'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
-            Similique facere cupiditate porro illo asperiores non cum ab harum.
-            Et enim laborum nihil nobis beatae nemo ad!,',
+            Product::create([
+            'name' => 'monkey' .$i,
+            'slug' => 'monkey-' .$i,
+            'details' => 'this is product detail demo for testing',
+            'price' => '50.50',
+            'description' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque odio corrupti nemo.
+                Similique facere cupiditate porro illo asperiores non cum ab harum.
+                Et enim laborum nihil nobis beatae nemo ad!,',
 
     ])->categories()->attach(2);
 }

@@ -19,12 +19,6 @@ class CheckoutController extends Controller
     public function index()
     {
 
-        // $tax            = config('cart.tax') / 100 ;
-        // $discount       = session()->get('coupon')['discount'] ?? 0;
-        // $newSubtotal    = (Cart::subtotal() - $discount);
-        // $newTax         = $newSubtotal * $tax;
-        // $newTotal       = $newSubtotal * (1 + $tax);
-
         return view('ecom.checkout')->with([
             'discount'      => $this->getNumbers()->get('discount'),
             'newSubtotal'   => $this->getNumbers()->get('newSubtotal'),
@@ -55,7 +49,7 @@ class CheckoutController extends Controller
             config('services.stripe.secret')
         );
 
-        Stripe::setApiKey(config('services.stripe.secret'));
+      Stripe::setApiKey(config('services.stripe.secret'));
 
       $stripe =  $stripe->checkout->sessions->create([
             'success_url' => url(route('confirmation.index')),

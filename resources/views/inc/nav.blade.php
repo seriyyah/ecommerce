@@ -26,7 +26,17 @@
                                 <a href="#"><i class="icon-magnifier icons"></i></a>
                             </div>
                             <div class="header__account">
-                                <a href="#"><i class="icon-user icons"></i></a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                            <div class="header__account">
+                                <a href="{{route('login')}}"><i class="icon-user icons"></i></a>
                             </div>
                             <div class="htc__shopping__cart">
                                 <a class="cart__menu" href="{{ route('cart.home') }}"><i class="icon-handbag icons"></i></a>

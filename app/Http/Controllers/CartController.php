@@ -18,16 +18,6 @@ class CartController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -48,30 +38,7 @@ class CartController extends Controller
 
         Cart::add($request->id, $request->name, 1, $request->price)
             ->associate('App\Product');
-
             return redirect()->route('cart.home')->with('success_message', 'Товар успешно добавлен в корзину!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -98,9 +65,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         Cart::remove($id);
-
         return back()->with('success_message', 'Позиция удалена!');
-        // return redirect()->route('cart.home')->with('success_message', 'Item has been added to cart.');
 
     }
 

@@ -282,7 +282,6 @@
                         </div>
                     @endif
 
-
                     <!-- discount end -->
                 </div>
 
@@ -312,7 +311,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 @section('extra-js')
     <script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
@@ -320,6 +318,7 @@
     <script>
         (function(){
             // Create a Stripe client
+
             var stripe = Stripe('{{ config('services.stripe.key') }}');
             // Create an instance of Elements
             var elements = stripe.elements();
@@ -364,7 +363,6 @@
               // Disable the submit button to prevent repeated clicks
               document.getElementById('complete-order').disabled = true;
               var options = {
-                name: document.getElementById('name_on_card').value,
                 address_line1: document.getElementById('address').value,
                 address_city: document.getElementById('city').value,
                 address_state: document.getElementById('province').value,
@@ -384,6 +382,7 @@
               });
             });
             function stripeTokenHandler(token) {
+                console.log(token)
               // Insert the token ID into the form so it gets submitted to the server
               var form = document.getElementById('payment-form');
               var hiddenInput = document.createElement('input');
