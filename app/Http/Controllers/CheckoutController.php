@@ -27,7 +27,7 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function stripeCheckout(Request $request)
+    public function stripeCheckout()
     {
         $contents = Cart::content()->map(function($item)
         {

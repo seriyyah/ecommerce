@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\SocialAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -22,33 +23,10 @@ class FacebookController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function handleFacebookCallback()
     {
-        $user = Socialite::driver('facebook')->stateless()->user();
-        $finduser = User::where('email', $user->email)->orWhere('facebook_id', $user->id)->first();
+        SocialAuth::Authenticate('facebook');
 
-        if($finduser){
-
-            Auth::login($finduser);
-
-            return redirect(route('home'));
-
-        }else{
-            $newUser = User::create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'facebook_id'=> $user->id,
-                'password' => Hash::make(Str::rand(10))
-            ]);
-
-            Auth::login($newUser);
-
-            return redirect(route('home'));
-        }
+        return redirect(route('home'));
     }
 }
