@@ -12,7 +12,7 @@ position: relative;
 ">
    <h1 style="
 text-align: center;
-">Thank you for <br> Your Order!</h1>
+">Thank you for <br> Your Order {{ $order->name }}!</h1>
    <p style="
 text-align: center;
 ">A confirmation email was sent</p>
@@ -22,6 +22,7 @@ text-align: center;
 margin-bottom: 10%;
 ">
        <a href="{{ route('home') }}" class="button">Home Page</a>
+       <a href="{{ route('orderPdf', $order->id) }}" class="button">get Pdf</a>
    </div>
 </div>
 

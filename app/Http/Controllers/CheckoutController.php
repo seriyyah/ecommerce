@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use SebastianBergmann\ObjectReflector\ObjectReflector;
 use Stripe\Product;
 use Stripe\Stripe;
 use Stripe\StripeClient;
@@ -14,7 +20,6 @@ class CheckoutController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -29,8 +34,17 @@ class CheckoutController extends Controller
 
     public function stripeCheckout()
     {
-        $contents = Cart::content()->map(function($item)
+        $user = Auth::user();
+        $order = $user->orders()->create([
+            'name' => Str::random(10),
+            'status' => 'created'
+        ]);
+        $contents = Cart::content()->map(function($item) use ($order)
         {
+            $order->orderItems()->create([
+                'quantity' => $item->qty,
+                'product_id' => $item->model->id
+            ]);
             return [
             'price_data' => [
             'currency' => 'USD',
@@ -61,51 +75,11 @@ class CheckoutController extends Controller
             'mode' => 'payment',
             'payment_method_types' => [
                 'card'
-            ]
+            ],
+            'metadata' => ['order_id' => $order->id]
         ]);
 
       return redirect($stripe->url);
-    }
-
-    public function stripeError()
-    {
-        return view('ecom.paymentUnsuccesfull');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(CheckoutRequest $request)
-    {
-        $contents = Cart::content()->map(function($item)
-        {
-            return $item->model->slug.','.$item->qty;
-        });
-//            ->values()->toJson();
-        try{
-            $charge = Stripe::charges()->create([
-                'amount'        => $this->getNumbers()->get('newTotal'),
-                'currency'      => 'USD', // change here for diff curency
-                'source'        => $request->stripeToken,
-                'description'   => 'Order',
-                'receipt_email' => $request->email,
-                'metadata'      =>[
-                    'contents'  => $contents,
-                    'quntity'   => Cart::instance('default')->count(),
-                    'discount'  => collect(session()->get('coupon'))->toJson(),
-                ],
-            ]);
-            Cart::instance('default')->destroy();
-            session()->forget('coupon');
-            return redirect()->route('confirmation.index')->with('success_message', 'Благадарим за пакупку ваша оплата прошла успешно');
-        }catch (CardErrorException $e){
-            return back()->withErrors('Error!' .$e->getMessage());
-        }
-
-
     }
 
 
@@ -126,48 +100,10 @@ class CheckoutController extends Controller
             ]);
         }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        public function getPdf(Order $order)
+        {
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadHTML("<h1>invoice of you order $order->name</h1> <br> BLAH-BLAH-BLAH-BLAH-BLAH");
+            return $pdf->stream();
+        }
 }

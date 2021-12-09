@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\SocialAuth;
 
-use App\Jobs\SendEmail;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
-class SocialAuth
+class SocialAuth implements ISocialAuth
 {
     public static function Authenticate($authDriverName)
     {
@@ -27,9 +27,14 @@ class SocialAuth
                 'google_id'=> $user->id,
                 'password' => Hash::make($password)
             ]);
-            SendEmail::dispatch($newUser, $password);
             Auth::login($newUser);
-
+            Mail::send(
+                'emails/newUserEmail',
+                [ 'user' => $newUser, 'password' => $password ],
+                function ($m) use ($newUser) {
+                    $m->from('testim.mailer@gmail.com', 'test');
+                    $m->to($newUser->email, $newUser->name)->subject('just a test');
+            });
         }
     }
 }

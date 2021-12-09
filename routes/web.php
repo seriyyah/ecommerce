@@ -52,11 +52,11 @@ use TCG\Voyager\Facades\Voyager;
     Route::post('/thankyou', [ConfirmationController::class, 'create'] )->name('confirmation.post');
     Route::get('/payment_error', [CheckoutController::class, 'stripeError'] )->name('stripe.error');
     Route::post('/webhook/stripe/$2y$10$ext8gvtbBfsf960Iw5OWjei7k8tVKuktztfQ6XWatwrhvujz6bEL2', [WebHookController::class, 'stripeWebHook'] );
+    Route::get('/orderpdf/{order}', [CheckoutController::class, 'getPdf'])->name('orderPdf');
 
     Route::group(['prefix' => 'admin'], function () {
         Voyager::routes();
     });
-
 Auth::routes();
 Route::get('auth/google', [ GoogleController::class, 'redirectToGoogle'] );
 Route::get('auth/google/callback', [ GoogleController::class, 'handleGoogleCallback'] );
