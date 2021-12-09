@@ -50,18 +50,17 @@ class CheckoutController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-      $stripe =  $stripe->checkout->sessions->create([
-            'success_url' => url(route('confirmation.index')),
-            'cancel_url' => url(route('stripe.error')),
-            'line_items' => [
-                $contents
-
-            ],
-            'mode' => 'payment',
-            'payment_method_types' => [
-                'card'
-            ]
-        ]);
+        $stripe =  $stripe->checkout->sessions->create([
+                'success_url' => url(route('confirmation.index')),
+                'cancel_url' => url(route('stripe.error')),
+                'line_items' => [
+                    $contents
+                ],
+                'mode' => 'payment',
+                'payment_method_types' => [
+                    'card'
+                ]
+            ]);
 
       return redirect($stripe->url);
     }
