@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
 class User extends \TCG\Voyager\Models\User
@@ -16,7 +15,9 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -37,7 +38,7 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }

@@ -3,26 +3,23 @@
 
 ## Steps to installation
 
-1. Clone the repo and `cd` into it
-2. `composer install`
-3. `npm install`
-4. Rename  `.env.example` file to `.env` or run code `cp .env.example .env`
-5. `php artisan key:generate`
-6. Set your database credentials in your `.env` file
-7. Set your Stripe credentials in your `.env` file. Specifically `STRIPE_KEY` and `STRIPE_SECRET`
-8. Set your `APP_URL` in your `.env` file. This is needed for Voyager to correctly resolve asset URLs.
-9. Set `ADMIN_PASSWORD` in your `.env` file if you want to specify an admin password. If not, the default password is 'password'
-10. `php artisan migrate` and then `php artisan db:seed` This will migrate the database and run any seeders necessary.
-11. `npm run dev`
-12. `php artisan serve` 
-13. Visit `localhost:8000` in your browser
-14. Visit `/admin` if you want to access the Voyager admin backend. Admin User/Password: `admin@admin.com/password`. Admin Web User/Password: `adminweb@adminweb.com/password`
-
-## Windows Users - money_format() issue
-
-The `money_format` function does not work in Windows. Take a look at [this thread](https://stackoverflow.com/questions/6369887/alternative-to-money-format-function-in-php-on-windows-platform/18990145). As an alternative, just use the `number_format` function instead.
-
-1. In `app/helpers.php` replace `money_format` line with `return '$'.number_format($price / 100, 2);`
-2. In `app/Product.php` replace `money_format` line with `return '$'.number_format($this->price / 100, 2);`
-3. In `config/cart.php` set the `thousand_seperator` to an empty string or you might get a 'non well formed numeric value encountered' error. It conflicts with `number_format`.
-
+1. Use simple comands from Makefile
+   1. first start `make start` -- than `make up`
+   2. enter container `make docker-exec`
+   3. stop docker `make stop`
+2. Clone the repo and `cd` into it
+3. `composer install`
+4. `npm install`
+5. Rename  `.env.example` file to `.env` or run code `cp .env.example .env`
+6. `php artisan key:generate`
+7. Install voyager `php artisan voyager:install`
+8. Run commands 
+   1. `php artisan vendor:publish --provider="TCG\Voyager\VoyagerServiceProvider"`
+   2. `php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"`
+9.  Now migrate `DB php artisan migrate`
+10. Set `ADMIN_PASSWORD` in your `.env` file if you want to specify an admin password. If not, the default password is 'password'
+11. `php artisan migrate` and then `php artisan db:seed` This will migrate the database and run any seeders necessary.
+12. `npm run dev`
+13. `php artisan serve` 
+14. Visit `localhost:8000` in your browser
+15. Visit `/admin` if you want to access the Voyager admin backend. Admin User/Password: `admin@admin.com/password`. Admin Web User/Password: `adminweb@adminweb.com/password`

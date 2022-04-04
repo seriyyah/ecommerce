@@ -163,7 +163,7 @@
                                         <div class="buttons-cart" style="display: flex">
                                             <a href="{{ route('products') }}">Вернутся в Магазин</a>
 
-                                            <form action="{{ route('cart.addtowish', $item->rowId) }}" method="POST">
+                                            <form action="{{ route('cart.add-to-wish', $item->rowId) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 <button type="submit" >
                                                     <a> Сохранить на потом</a>

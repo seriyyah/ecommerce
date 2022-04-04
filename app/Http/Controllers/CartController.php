@@ -2,105 +2,103 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use App\Models\Product;
 
 class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        return view('ecom.cart');
+        return view('shop.cart');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $duplicates = Cart::search(function($cartItem, $rowId) use ($request)
-        {
+        $duplicates = Cart::search(static function ($cartItem) use ($request) {
             return $cartItem->id === $request->id;
         });
 
-        if($duplicates->isNotEmpty())
-        {
-            return redirect()->route('cart.home')->with('success_message',  'Данный товар уже в карзине!');
+        if ($duplicates->isNotEmpty()) {
+            return redirect()->route('cart.home')->with('success_message', 'Product ' . $request->name . ' is already in cart!');
         }
 
-
         Cart::add($request->id, $request->name, 1, $request->price)
-            ->associate('App\Product');
+            ->associate(Product::class);
 
-            return redirect()->route('cart.home')->with('success_message', 'Товар успешно добавлен в корзину!');
+        return redirect()->route('cart.home')->with('success_message', $request->name . ' was added to cart!');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param string $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id): JsonResponse
     {
         Cart::update($id, $request->quantity);
-
-        session()->flash('success_message', 'Каличество товаров в корзине обновлено успешно ');
-        return response()->json(['success' => true]);
+        session()->flash('success_message', 'Quantity was updated!');
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param string $id
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(string $id): RedirectResponse
     {
         Cart::remove($id);
 
-        return back()->with('success_message', 'Позиция удалена!');
-        // return redirect()->route('cart.home')->with('success_message', 'Item has been added to cart.');
-
+        return back()->with('success_message', 'Product removed from cart!');
     }
 
     /**
      * add products to wishlist.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param string $id
+     * @return RedirectResponse
      */
 
-    public function addtowish($id)
+    public function addToWish(string $id)
     {
-       $item = Cart::get($id);
+        $item = Cart::get($id);
 
 
-       Cart::remove($id);
+        Cart::remove($id);
 
-       $duplicates = Cart::instance('addtowish')->search(function ($cartItem, $rowId) use ($id)
-       {
-           return $rowId === $id;
-       });
+        $duplicates = Cart::instance('add-to-wish')->search(function ($cartItem, $rowId) use ($id) {
+            return $rowId === $id;
+        });
 
-       if($duplicates->isNotEmpty())
-       {
-           return redirect()->route('cart.home')->with('success_message', 'Позиция уже была сохранена рание!');
-       }
+        if ($duplicates->isNotEmpty()) {
+            return redirect()->route('cart.home')->with('success_message', $item->name . ' is already in wish list!');
+        }
 
-       Cart::instance('addtowish')->add($item->id, $item->name, 1, $item->price)
-            ->associate('App\Product');
+        Cart::instance('add-to-wish')->add($item->id, $item->name, 1, $item->price)
+            ->associate(Product::class);
 
-        return redirect()->route('cart.home')->with('success_message', 'Сохраненно на потом!');
-
-
+        return redirect()->route('cart.home')->with('success_message', $item->name . ' saved for later!');
     }
 }
