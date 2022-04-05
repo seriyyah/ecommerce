@@ -114,18 +114,18 @@
                             <div class="product__big__images">
                                 <div class="portfolio-full-image tab-content">
                                     <div role="tabpanel" class="tab-pane fade in active" id="img-tab-1">
-                                        <img src="{{ productimg($product->image)}}" class="prod active" id="currentImage">
+                                        <img src="{{ productImg($product->image)}}" class="prod active" id="currentImage">
                                     </div>
                                 <!-- Start Small images -->
 
                                 <div class="product-section-images">
                                     <div class="product-section-thumbnail selected">
-                                        <img src="{{ productimg($product->image)}}">
+                                        <img src="{{ productImg($product->image)}}">
                                     </div>
                                         @if ($product->images)
                                         @foreach (json_decode($product->images, true) as $image)
                                              <div class="product-section-thumbnail">
-                                                <img src="{{ productimg($image)}}">
+                                                <img src="{{ productImg($image)}}">
                                             </div>
                                         @endforeach
 
@@ -221,17 +221,17 @@
                                 <div class="sin__desc product__share__link">
                                     <p><span>Share this:</span></p>
                                     <ul class="pro__share">
-                                        <li><a href="#" target="_blank"><i class="icon-social-twitter icons"></i></a></li>
+                                        <li><a href="#" target="_blank" rel="noopener"><i class="icon-social-twitter icons"></i></a></li>
 
-                                        <li><a href="#" target="_blank"><i class="icon-social-instagram icons"></i></a></li>
+                                        <li><a href="#" target="_blank" rel="noopener"><i class="icon-social-instagram icons"></i></a></li>
 
-                                        <li><a href="https://www.facebook.com/Furny/?ref=bookmarks" target="_blank"><i class="icon-social-facebook icons"></i></a></li>
+                                        <li><a href="#" target="_blank" rel="noopener"><i class="icon-social-facebook icons"></i></a></li>
 
-                                        <li><a href="#" target="_blank"><i class="icon-social-google icons"></i></a></li>
+                                        <li><a href="#" target="_blank" rel="noopener"><i class="icon-social-google icons"></i></a></li>
 
-                                        <li><a href="#" target="_blank"><i class="icon-social-linkedin icons"></i></a></li>
+                                        <li><a href="#" target="_blank" rel="noopener"><i class="icon-social-linkedin icons"></i></a></li>
 
-                                        <li><a href="#" target="_blank"><i class="icon-social-pinterest icons"></i></a></li>
+                                        <li><a href="#" target="_blank" rel="noopener"><i class="icon-social-pinterest icons"></i></a></li>
                                     </ul>
                                 </div>
                             </div>

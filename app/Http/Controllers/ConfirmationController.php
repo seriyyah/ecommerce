@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use App\OrderItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ConfirmationController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @return Redirector|View
      */
     public function index()
     {
-        if (Cart::count() == 0 )
-        {
+        if (Cart::count() === 0) {
             return redirect('/');
         }
 
@@ -26,18 +24,17 @@ class ConfirmationController extends Controller
 
         $order = Auth::user()->orders()->latest()->first();
         $order->update(['status' => 'completed']);
-        return view('ecom.thankyou', [
+        return view('shop.thank-you', [
             'order' => $order
         ]);
-
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $request): void
     {
-        if ($request->get('type') == 'checkout.session.completed') {
+        if ($request->get('type') === 'checkout.session.completed') {
             Cart::instance('wishlist')->restore('username');
         }
     }

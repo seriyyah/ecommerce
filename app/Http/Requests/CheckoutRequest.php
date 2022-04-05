@@ -11,7 +11,7 @@ class CheckoutRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,18 +21,16 @@ class CheckoutRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'email'     => 'required|email',
-            'name'      => 'required',
-            'address'   =>'required',
-            'city'   =>'required',
-            'province'   =>'required',
-            'postalcode'   =>'required',
-            'phone'   =>'required',
-
-
+            'email' => 'required|email',
+            'name' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'postalcode' => 'required',
+            'phone' => 'required',
         ];
     }
 }

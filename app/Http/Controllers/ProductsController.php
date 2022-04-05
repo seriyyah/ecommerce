@@ -2,68 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Product;
-use App\Category;
+use App\Models\Category;
+use App\Models\Product;
+use App\Services\Product\ProductService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        $categories = Category::all();
-
-        if(request()->category)
-        {
-            $products = Product::with('categories')->whereHas('categories', function ($query){
-                $query->where('slug', request()->category);
-
-            });
-
-            $categoryName   = optional( $categories->where('slug', request()->category)->first())->name;
-        }else{
-        $products   = Product::where('featured', true);
-        $categoryName = 'Все Товары';
-
-        }
-
-        if(request()->sort == 'low_high')
-        {
-            $products = $products->orderBy('price')->paginate(9);
-        }elseif (request()->sort == 'high_low')
-        {
-            $products = $products->orderBy('price', 'desc')->paginate(9);
-
-        }else{
-            $products = $products->paginate(9);
-        }
-
-        return view('ecom.products')->with([
-            'products'      => $products,
-            'categories'    => $categories,
-            'categoryName'  => $categoryName,
-        ]);
+        return (new ProductService())->getProducts();
     }
-
 
     /**
      * Display the specified resource.
      *
-     * @param  string  $slug
+     * @param string $slug
+     * @return Application|Factory|View
      */
-    public function show($slug)
+    public function show(string $slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
-        $recom = Product::where('slug', '!=', $slug)->inRandomOrder()->take(4)->get();
-        return view('ecom.show')->with([
-            'product' => $product,
-            'recom' => $recom,
-            ]);
+        return (new ProductService())->showProduct($slug);
     }
-
-
 }
