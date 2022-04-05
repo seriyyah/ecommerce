@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Product;
+use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 class HomePageController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @TODO add here featured as well Product::where('featured', true)->get();
+     * @return Application|Factory|View
      */
     public function index()
     {
         $products = Product::inRandomOrder()->take(8)->get();
-        // $fproducts = Product::where('featured', true)->get();
+        $bestProduct = Product::where('featured', true)->take(4)->inRandomOrder()->get();
 
-        return view('ecom.index')->with('products', $products);
+        return view('shop.index')->with([
+            'products'      => $products,
+            'bestProduct'    => $bestProduct
+        ]);
     }
-
 }

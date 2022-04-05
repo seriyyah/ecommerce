@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method App\\\\Services\\\\Product\\\\ProductService\\:\\:recommendedProduct\\(\\) should return App\\\\Models\\\\Product but returns Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<App\\\\Models\\\\Product\\>\\.$#"
+			count: 1
+			path: app/Services/Product/ProductService.php
+

@@ -4,25 +4,22 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\SocialAuth\SocialAuth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Auth;
-use App\User;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class FacebookController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|RedirectResponse
      */
-    public function redirectToFacebook()
+    public function redirectToFacebook() : RedirectResponse
     {
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function handleFacebookCallback()
+    public function handleFacebookCallback(): RedirectResponse
     {
         SocialAuth::Authenticate('facebook');
 

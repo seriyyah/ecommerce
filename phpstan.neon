@@ -1,0 +1,14 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    level: 7
+    checkOctaneCompatibility: true
+    paths:
+        - app
+    excludePaths:
+        - /*/Services/SocialAuth/*
+        - /*/Models/Product.php
+        - /*/Http/Controllers/ConfirmationController.php
+
+    checkMissingIterableValueType: false
+    ignoreErrors:
