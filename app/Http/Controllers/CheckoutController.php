@@ -55,8 +55,6 @@ class CheckoutController extends Controller
             ];
         })->values()->toArray();
 
-        $priceUnitAmount = $this->getNumbers()->get('newTotal');
-
         $stripe = new StripeClient(
             config('services.stripe.secret')
         );
