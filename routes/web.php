@@ -37,14 +37,11 @@ Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart
 Route::patch('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
 
 Route::post('/cart/add-to-wish/{product}', [CartController::class, 'addToWish'])->name('cart.add-to-wish');
-//Route::delete('/saveForLater/{product}', 'SaveForLaterController@destroy')->name('remove.addtowish');
-//Route::post('/saveForLater/switchToимсCart/{product}', 'SaveForLaterController@switchToCart')->name('add.switchToCart');
 
 Route::get('empty', static function () {
     Cart::destroy();
 });
-//Route::post('/coupon', 'CouponsController@store')->name('coupon.store');
-//Route::delete('/coupon', 'CouponsController@destroy')->name('coupon.destroy');
+
 Route::post('/stripe/checkout', [CheckoutController::class, 'stripeCheckout'])->name('stripe.checkout');
 Route::get('/thank-you', [ConfirmationController::class, 'index'])->name('confirmation.index');
 Route::post('/thank-you', [ConfirmationController::class, 'create'])->name('confirmation.post');

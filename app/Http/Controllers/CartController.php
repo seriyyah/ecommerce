@@ -13,6 +13,7 @@ use App\Models\Product;
 
 class CartController extends Controller
 {
+    public const CART_HOME = 'cart.home';
     /**
      * Display a listing of the resource.
      *
@@ -36,13 +37,13 @@ class CartController extends Controller
         });
 
         if ($duplicates->isNotEmpty()) {
-            return redirect()->route('cart.home')->with('success_message', 'Product ' . $request->name . ' is already in cart!');
+            return redirect()->route(self::CART_HOME)->with('success_message', 'Product ' . $request->name . ' is already in cart!');
         }
 
         Cart::add($request->id, $request->name, 1, $request->price)
             ->associate(Product::class);
 
-        return redirect()->route('cart.home')->with('success_message', $request->name . ' was added to cart!');
+        return redirect()->route(self::CART_HOME)->with('success_message', $request->name . ' was added to cart!');
     }
 
     /**
@@ -88,17 +89,17 @@ class CartController extends Controller
 
         Cart::remove($id);
 
-        $duplicates = Cart::instance('add-to-wish')->search(function ($cartItem, $rowId) use ($id) {
+        $duplicates = Cart::instance('add-to-wish')->search(function ($rowId) use ($id) {
             return $rowId === $id;
         });
 
         if ($duplicates->isNotEmpty()) {
-            return redirect()->route('cart.home')->with('success_message', $item->name . ' is already in wish list!');
+            return redirect()->route(self::CART_HOME)->with('success_message', $item->name . ' is already in wish list!');
         }
 
         Cart::instance('add-to-wish')->add($item->id, $item->name, 1, $item->price)
             ->associate(Product::class);
 
-        return redirect()->route('cart.home')->with('success_message', $item->name . ' saved for later!');
+        return redirect()->route(self::CART_HOME)->with('success_message', $item->name . ' saved for later!');
     }
 }
