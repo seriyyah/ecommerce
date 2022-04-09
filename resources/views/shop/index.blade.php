@@ -411,73 +411,27 @@
                 <div class="row">
                     <div class="ht__blog__wrap clearfix">
                         <!-- Start Single Blog -->
+                        @foreach($posts as $post)
                         <div class="col-md-6 col-lg-4 col-sm-6 col-xs-12">
                             <div class="blog">
                                 <div class="blog__thumb">
-                                    <a href="blog-details.html">
-                                        <img src="images/blog/blog-img/1.jpg" alt="blog images">
+                                    <a href="{{ route('post.show', $post->slug) }}">
+                                        <img src="{{ asset('storage/'.$post->image)}}" alt="blog images">
                                     </a>
                                 </div>
                                 <div class="blog__details">
                                     <div class="bl__date">
-                                        <span>March 22, 2016</span>
+                                        <span>{{$post->created_at}}</span>
                                     </div>
-                                    <h2><a href="blog-details.html">Lorem ipsum dolor sit amet, consec tetur adipisicing
-                                            elit</a></h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
+                                    <h2><a href="{{ route('post.show', $post->slug) }}">{{$post->title}}</a></h2>
+                                    <p>{{$post->excerpt}}</p>
                                     <div class="blog__btn">
-                                        <a href="blog-details.html">Read More</a>
+                                        <a href="{{ route('post.show', $post->slug) }}">Read More</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Single Blog -->
-                        <!-- Start Single Blog -->
-                        <div class="col-md-6 col-lg-4 col-sm-6 col-xs-12">
-                            <div class="blog">
-                                <div class="blog__thumb">
-                                    <a href="blog-details.html">
-                                        <img src="images/blog/blog-img/2.jpg" alt="blog images">
-                                    </a>
-                                </div>
-                                <div class="blog__details">
-                                    <div class="bl__date">
-                                        <span>May 22, 2017</span>
-                                    </div>
-                                    <h2><a href="blog-details.html">Lorem ipsum dolor sit amet, consec tetur adipisicing
-                                            elit</a></h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                    <div class="blog__btn">
-                                        <a href="blog-details.html">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Blog -->
-                        <!-- Start Single Blog -->
-                        <div class="col-md-6 col-lg-4 col-sm-6 col-xs-12">
-                            <div class="blog">
-                                <div class="blog__thumb">
-                                    <a href="blog-details.html">
-                                        <img src="images/blog/blog-img/3.jpg" alt="blog images">
-                                    </a>
-                                </div>
-                                <div class="blog__details">
-                                    <div class="bl__date">
-                                        <span>March 22, 2018</span>
-                                    </div>
-                                    <h2><a href="blog-details.html">Lorem ipsum dolor sit amet, consec tetur adipisicing
-                                            elit</a></h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                    <div class="blog__btn">
-                                        <a href="blog-details.html">Read More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                         <!-- End Single Blog -->
                     </div>
                 </div>

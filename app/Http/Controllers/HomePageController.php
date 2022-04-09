@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
+use TCG\Voyager\Models\Post;
 
 class HomePageController extends Controller
 {
@@ -18,10 +19,22 @@ class HomePageController extends Controller
     {
         $products = Product::inRandomOrder()->take(8)->get();
         $bestProduct = Product::where('featured', true)->take(4)->inRandomOrder()->get();
+        $posts = Post::inRandomOrder()->take(3)->get();
 
         return view('shop.index')->with([
             'products'      => $products,
-            'bestProduct'    => $bestProduct
+            'bestProduct'   => $bestProduct,
+            'posts'         => $posts
         ]);
+    }
+
+    /**
+     * @param string $slug
+     * @return Application|Factory|View
+     */
+    public function post(string $slug)
+    {
+        $blogPost = Post::where('slug', $slug)->firstOrFail();
+        return view('shop.post', compact('blogPost'));
     }
 }

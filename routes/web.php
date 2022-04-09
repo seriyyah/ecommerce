@@ -26,8 +26,9 @@ use TCG\Voyager\Facades\Voyager;
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
-Route::get('/products', [ProductsController::class, 'index'])->name('products');
+Route::get('/blog/{post}', [HomePageController::class, 'post'])->name('post.show');
 
+Route::get('/products', [ProductsController::class, 'index'])->name('products');
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('product.show');
 
 
