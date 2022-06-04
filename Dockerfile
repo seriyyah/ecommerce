@@ -1,5 +1,5 @@
 #FROM php:7.0.22-fpm
-FROM php:7.2.5-fpm
+FROM php:7.3.28-fpm
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get -y install nodejs
